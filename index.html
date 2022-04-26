@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .box{
+            background-size: 100% 100%;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body style="background-image: url(bg.png); background-size: 100%;" class="jga">
+    <div class="hsg">
+        <h1>Очки: <span class="span">0 </span></h1>
+        <h1>Осталось времени: <span class="span1">60</span></h1>
+    </div>
+    <script>
+        let jga = document.querySelector('.jga')
+        let hsg = document.querySelector('.hsg')
+        let span = document.querySelector('.span')
+        let span1 = document.querySelector('.span1')
+        let time = 60
+        let score = 0
+        function getRandom(num){
+            let big = Math.random() * num
+            let round = Math.round(big)
+            return round
+        }
+        let y = [100, 300, 500]
+        let img_url = ["1.png", "2.png", "3.png"]
+        function create(){
+            let elem = document.createElement('div') 
+            document.querySelector('.hsg').appendChild(elem)
+            elem.classList.add("box")
+            elem.style.left = getRandom(1100) + "px"
+            elem.style.top = y[getRandom(2)] + "px"
+            let randomImg = getRandom(2)
+            elem.style.backgroundImage = "url(" + img_url[randomImg] + ")"
+            if(randomImg == 0){
+                elem.type = "norm"
+            }
+            else if(randomImg == 1){
+                elem.type = "good"
+            }
+            else if(randomImg == 2){
+                elem.type = "bad"
+            }
+            elem.onclick = function(){
+                elem.style.display = "none";
+                if(elem.type == "norm"){
+                    score = score + 1
+                    span.innerHTML = score
+                } 
+                else if(elem.type == "good"){
+                    score = score + 2
+                    span.innerHTML = score
+                } 
+                else if(elem.type == "bad"){
+                    score = score - 4
+                    span.innerHTML = score
+                }
+            }
+        }
+        function finish(){
+            clearInterval(int1)
+            alert('Конец игры. Твой результат: ' + score)
+            if(score >= 130){
+                hsg.style.display = 'none'
+                jga.style.backgroundImage = 'url(win.jpg)'
+            }
+            clearInterval(ghas)
+        }
+        function timeLast(){
+            time = time - 1
+            span1.innerHTML = time
+        }
+        let int1 = setInterval(create, 500)
+        let ghas = setInterval(timeLast, 1000)
+        setTimeout(finish, 60000)
+    </script>
+</body>
+</html>
